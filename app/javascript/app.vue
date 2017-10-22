@@ -35,18 +35,25 @@ export default {
   },
   methods: {
     addTask: function(){
+      const callBackAddTask = (response) => {
+        if(response.status != "error"){
+          this.tasks.push({ msg: this.newTask })
+          this.newTask = ""
+        } else {
+          console.log('error');
+        }
+      }
       var xhr = new XMLHttpRequest()
       xhr.open("POST", "/tasks/create.json", true)
       xhr.setRequestHeader("Content-type", "application/json");
       xhr.onreadystatechange = function(){
-        // TODO:
-        console.log(xhr.response);
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(xhr.response);
+          callBackAddTask(xhr.response)
+        }
       }
       xhr.responseType = "json"
       xhr.send('{"task":{"name": "' + this.newTask + '"}}')
-
-      this.tasks.push({ msg: this.newTask })
-      this.newTask = ""
     },
     deleteTask: function(task){
       const index = this.tasks.indexOf(task)

@@ -20,6 +20,10 @@ class TasksController < ApplicationController
         format.json {
           render json: @task
         }
+      else
+        format.json {
+          render json: { status: "error" }
+        }
       end
     end
   end
