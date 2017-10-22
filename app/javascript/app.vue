@@ -35,6 +35,16 @@ export default {
   },
   methods: {
     addTask: function(){
+      var xhr = new XMLHttpRequest()
+      xhr.open("POST", "/tasks/create.json", true)
+      xhr.setRequestHeader("Content-type", "application/json");
+      xhr.onreadystatechange = function(){
+        // TODO:
+        console.log(xhr.response);
+      }
+      xhr.responseType = "json"
+      xhr.send('{"task":{"name": "' + this.newTask + '"}}')
+
       this.tasks.push({ msg: this.newTask })
       this.newTask = ""
     },
