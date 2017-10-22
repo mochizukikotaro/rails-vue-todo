@@ -2,8 +2,8 @@ Rails.application.routes.draw do
 
   root to: 'pages#index'
 
-  get 'tasks/index'
-  post 'tasks/create'
+  resources :tasks, only: ["index", "create", "destroy"]
+
   get 'pages/index'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
 
-  protect_from_forgery :except => ["create"]
+  protect_from_forgery except: ["create", "destroy"]
 
   def index
     respond_to do |format|
@@ -25,6 +25,16 @@ class TasksController < ApplicationController
           render json: { status: "error" }
         }
       end
+    end
+  end
+
+  def destroy
+    @task = Task.find_by(id: params[:id])
+    @task.destroy
+    respond_to do |format|
+      format.json {
+        render json: @task
+      }
     end
   end
 
