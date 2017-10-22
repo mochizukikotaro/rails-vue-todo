@@ -2,22 +2,3 @@
 
 <h1>Pages#index</h1>
 <p>Find me in app/views/pages/index.html.erb</p>
-
-
-<script>
-
-var hoge = function(){
-  var xhr = new XMLHttpRequest();
-  // xhr.open("GET", "http://localhost:3000/pages/index", true);
-  xhr.open("GET", "http://localhost:3000/tasks/index.json", true);
-  xhr.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        console.log(xhr.response);
-    }
-  };
-  xhr.responseType = "json"
-  xhr.send()
-}
-
-hoge()
-</script>

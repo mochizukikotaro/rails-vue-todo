@@ -12,22 +12,28 @@
 </template>
 
 <script>
+let initTasks = []
 export default {
   data: function () {
-    let tasks = this.initTask()
-    console.log(tasks);
     return {
       newTask: "",
-      tasks: tasks
+      tasks: initTasks
     }
   },
+  beforeCreate: function(){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/tasks/index.json", true);
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        for(const x of xhr.response){
+          initTasks.push({ msg: x.name })
+        }
+      }
+    }
+    xhr.responseType = "json"
+    xhr.send()
+  },
   methods: {
-    initTask: function(){
-      return [
-        { msg: "hoge" },
-        { msg: "piyo" }
-      ]
-    },
     addTask: function(){
       this.tasks.push({ msg: this.newTask })
       this.newTask = ""
