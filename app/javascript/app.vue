@@ -14,16 +14,20 @@
 <script>
 export default {
   data: function () {
+    let tasks = this.initTask()
+    console.log(tasks);
     return {
       newTask: "",
-      tasks: [
-        { msg: 'Cooking' },
-        { msg: 'Watching TV' },
-        { msg: 'Cleaning' }
-      ]
+      tasks: tasks
     }
   },
   methods: {
+    initTask: function(){
+      return [
+        { msg: "hoge" },
+        { msg: "piyo" }
+      ]
+    },
     addTask: function(){
       this.tasks.push({ msg: this.newTask })
       this.newTask = ""
