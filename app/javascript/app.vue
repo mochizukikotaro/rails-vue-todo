@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 let initialTasks = []
 export default {
   data: function () {
@@ -21,17 +22,11 @@ export default {
     }
   },
   beforeCreate: function(){
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/tasks.json", true);
-    xhr.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        for(const x of xhr.response){
-          initialTasks.push({ id: x.id, msg: x.name })
-        }
+    axios.get("/tasks.json").then(res => {
+      for(const task of res.data){
+        initialTasks.push({ id: task.id, msg: task.name })
       }
-    }
-    xhr.responseType = "json"
-    xhr.send()
+    })
   },
   methods: {
     addTask: function(){
