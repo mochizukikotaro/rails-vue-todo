@@ -30,46 +30,26 @@ export default {
   },
   methods: {
     addTask: function(){
-
-      const callBackAddTask = (res) => {
-        console.log(res);
-        if(res.status != "error"){
-          this.tasks.push({ id: res.id, msg: this.newTask })
+      axios.post("/tasks.json", {
+        task: { name: this.newTask }
+      }).then(res => {
+        if(res.data.status != "error"){
+          this.tasks.push({ id: res.data.id, msg: this.newTask })
           this.newTask = ""
         } else {
           console.log('error');
         }
-      }
-
-      var xhr = new XMLHttpRequest()
-      xhr.open("POST", "/tasks.json", true)
-      xhr.setRequestHeader("Content-type", "application/json");
-      xhr.onreadystatechange = function(){
-        if (this.readyState == 4 && this.status == 200) {
-          callBackAddTask(xhr.response)
-        }
-      }
-      xhr.responseType = "json"
-      xhr.send('{"task":{"name": "' + this.newTask + '"}}')
+      })
     },
     deleteTask: function(task){
-      const callBackDeleteTask = (res) => {
+      axios.delete("/tasks/" + task.id + ".json").then(res => {
         for(const t of this.tasks){
-          if(t.id == res.id){
+          if(t.id == res.data.id){
             const index = this.tasks.indexOf(t)
             this.tasks.splice(index, 1)
           }
         }
-      }
-      var xhr = new XMLHttpRequest()
-      xhr.open("DELETE", "/tasks/" + task.id + ".json", true)
-      xhr.onreadystatechange = function(){
-        if (this.readyState == 4 && this.status == 200) {
-          callBackDeleteTask(xhr.response)
-        }
-      }
-      xhr.responseType = "json"
-      xhr.send()
+      })
     }
   }
 }
